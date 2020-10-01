@@ -3,16 +3,23 @@
 }
 
 @using MusicOrganizer.Models;
+  @if (@Model["albums"].Count == 0)
+  {
+    <h3>There are no Albums for @Model["artist"].Name, please add some.</h3> 
+  }
+  else
+  {
+    <h3>Here are all the albums for @Model["artist"].Name:</h3>
 
-<h3>Here are all the albums for this artist:</h3>
+    <ol>
+    @foreach (Album album in @Model["albums"])
+    {
+      <li><a href='/artists/@Model["artist"].Id/albums/@album.Id'>@album.Name</a></li>
+    }
+    </ol>
+  }
 
-<ol>
-@foreach (Album album in @Model["albums"])
-{
-  <li><a href='/artists/@Model["artist"].Id/albums/@album.Id'>@album.Name</a></li>
-}
-</ol>
 
-<p><a href='/artists/@Model["artist"].Id/artists/new'>Add a new artist</a></p>
+<p><a href='/artists/@Model["artist"].Id/albums/new'>Add a new album</a></p>
 <p><a href='/artists'>Return to artist list</a></p>
 <p><a href='/'>Return to Main Page</a></p>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicOrganizer.Models;
 using System.Collections.Generic;
+using System;
 
 namespace MusicOrganizer.Controllers
 {
@@ -37,7 +38,18 @@ namespace MusicOrganizer.Controllers
       return View(model);
     }
 
-
-
+    // This one creates new Album within a given Artist, not new Artists:
+    [HttpPost("/artists/{artistId}/albums")]
+    public ActionResult Create(int artistId, string name, string type)
+    {
+      Dictionary<string, object> model = new Dictionary<string, object>();
+      Artist foundArtist = Artist.Find(artistId);
+      Album newAlbum = new Album(name, type);
+      foundArtist.AddAlbum(newAlbum);
+      List<Album> artistAlbums = foundArtist.Albums;
+      model.Add("albums", artistAlbums);
+      model.Add("artist", foundArtist);
+      return View("Show", model);
+    }
   }
 }

@@ -2,13 +2,13 @@
   Layout = "_Layout";
 }
 
-<h1>Add a new item to @Model.Name</h1>
+<h1>Add a new item to @Model.Name</h1> 
 
 <form action="/artists/@Model.Id/albums" method="post">
   <input id="artistId" name="artistId" type="hidden" value="@Model.Id">
-  <label for="albumname">Album Name</label>
-  <input id="albumname" name="albumname" type="text">
-  <label for="albumtype">Album Type</label>
-  <input id="albumtype" name="albumtype" type="text">
+  <label for="name">Album Name</label>
+  <input id="name" name="name" type="text">
+  <label for="type">Album Type</label>
+  <input id="type" name="type" type="text">
   <button type='submit'>Add item</button>
-</form>
+</form> 
