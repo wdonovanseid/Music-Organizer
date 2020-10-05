@@ -30,7 +30,16 @@ namespace MusicOrganizer.Tests
       //Assert
       CollectionAssert.AreEqual(newList, result);
     }
+    [TestMethod]
+    public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Album()
+    {
+      // Arrange, Act
+      Album firstAlbum = new Album("Mow the lawn", "here", 0, 0);
+      Album secondAlbum = new Album("Mow the lawn", "here", 0, 0);
 
+      // Assert
+      Assert.AreEqual(firstAlbum, secondAlbum);
+    }
     // [TestMethod]
     // public void AlbumConstructor_CreatesInstanceOfAlbum_Album()
     // {

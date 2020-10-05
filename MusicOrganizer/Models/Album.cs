@@ -44,7 +44,22 @@ namespace MusicOrganizer.Models
       }
       return allAlbum;
     }
-
+    public override bool Equals(System.Object otherAlbum)
+    {
+      if (!(otherAlbum is Album))
+      {
+        return false;
+      }
+      else
+      {
+        Album newAlbum = (Album) otherAlbum;
+        bool nameEquality = (this.Name == newAlbum.Name);
+        bool typeEquality = (this.Type == newAlbum.Type);
+        bool artistIdEquality = (this.ArtistId == newAlbum.ArtistId);
+        bool idEquality = (this.Id == newAlbum.Id);
+        return (nameEquality && typeEquality && artistIdEquality && idEquality);
+      }
+    }
     public static void ClearAll()
     {
       MySqlConnection conn = DB.Connection();
