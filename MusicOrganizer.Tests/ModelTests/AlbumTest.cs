@@ -40,6 +40,20 @@ namespace MusicOrganizer.Tests
       // Assert
       Assert.AreEqual(firstAlbum, secondAlbum);
     }
+    [TestMethod]
+    public void Save_SavesToDatabase_AlbumList()
+    {
+      //Arrange
+      Album testAlbum = new Album("Mow the lawn", "here", 0, 0);
+
+      //Act
+      testAlbum.Save();
+      List<Album> result = Album.GetAll();
+      List<Album> testList = new List<Album>{testAlbum};
+
+      //Assert
+      CollectionAssert.AreEqual(testList, result);
+    }
     // [TestMethod]
     // public void AlbumConstructor_CreatesInstanceOfAlbum_Album()
     // {

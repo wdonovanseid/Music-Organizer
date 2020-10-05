@@ -73,7 +73,9 @@ namespace MusicOrganizer.Models
         conn.Dispose();
       }
     }
-
+    public void Save()
+    {
+    }
     public static Album Find(int searchId)
     {
       Album placeholderItem = new Album("placeholder item", "Here", 0, 0);
