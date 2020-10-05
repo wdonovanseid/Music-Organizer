@@ -45,6 +45,7 @@
 //       Dictionary<string, object> model = new Dictionary<string, object>();
 //       Artist foundArtist = Artist.Find(artistId);
 //       Album newAlbum = new Album(name, type);
+//       newAlbum.Save();
 //       foundArtist.AddAlbum(newAlbum);
 //       List<Album> artistAlbums = foundArtist.Albums;
 //       model.Add("albums", artistAlbums);

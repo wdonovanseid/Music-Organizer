@@ -31,6 +31,24 @@ namespace MusicOrganizer.Tests
       CollectionAssert.AreEqual(newList, result);
     }
     [TestMethod]
+    public void GetAll_ReturnsAlbums_AlbumList()
+    {
+      //Arrange
+      string name1 = "Walk the dog";
+      string name2 = "Wash the dishes";
+      Album newAlbum1 = new Album(name1, "CD", 0);
+      newAlbum1.Save(); // New code
+      Album newAlbum2 = new Album(name2, "Tape", 1);
+      newAlbum2.Save(); // New code
+      List<Album> newList = new List<Album> { newAlbum1, newAlbum2 };
+
+      //Act
+      List<Album> result = Album.GetAll();
+
+      //Assert
+      CollectionAssert.AreEqual(newList, result);
+    }
+    [TestMethod]
     public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Album()
     {
       // Arrange, Act
