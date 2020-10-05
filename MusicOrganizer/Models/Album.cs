@@ -11,6 +11,7 @@ namespace MusicOrganizer.Models
     public string Type { get; set; }
     public int Id { get; set; }
     public virtual int ArtistId { get; set; }
+    public byte Image { get; set; }
 
     public Album(string name, string type, int artistId)
     {
@@ -42,6 +43,34 @@ namespace MusicOrganizer.Models
         string type = rdr.GetString(2);
         int artistId= rdr.GetInt32(3);
         Album newAlbum = new Album(name,type,albumId,artistId);
+        allAlbum.Add(newAlbum);
+      }
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return allAlbum;
+    }
+    public static List<Album> GetAlbums(int artistId)
+    {
+      List<Album> allAlbum = new List<Album> { };
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM albums WHERE artistId = @thisId;";
+      MySqlParameter thisId = new MySqlParameter();
+      thisId.ParameterName = "@thisId";
+      thisId.Value = artistId;
+      cmd.Parameters.Add(thisId);
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      while(rdr.Read())
+      {
+        int albumId = rdr.GetInt32(0);
+        string name = rdr.GetString(1);
+        string type = rdr.GetString(2);
+        int artId = rdr.GetInt32(3);
+        Album newAlbum = new Album(name,type,albumId,artId);
         allAlbum.Add(newAlbum);
       }
       conn.Close();
@@ -85,19 +114,23 @@ namespace MusicOrganizer.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO albums (name, type, artistId) VALUES (@Name, @Type, @ArtistId);";
+      cmd.CommandText = @"INSERT INTO albums (name, type, artistId, image) VALUES (@Name, @Type, @ArtistId, @Image);";
       MySqlParameter name = new MySqlParameter();
       MySqlParameter type = new MySqlParameter();
       MySqlParameter artistId = new MySqlParameter();
+      MySqlParameter image = new MySqlParameter();
       name.ParameterName = "@Name";
       type.ParameterName = "@Type";
-      artistId.ParameterName = "@artistId";
+      artistId.ParameterName = "@ArtistId";
+      image.ParameterName = "@Image";
       name.Value = this.Name;
       type.Value = this.Type;
       artistId.Value = this.ArtistId;
+      image.Value = this.Image;
       cmd.Parameters.Add(name);
       cmd.Parameters.Add(type);
       cmd.Parameters.Add(artistId);
+      cmd.Parameters.Add(Image);
       cmd.ExecuteNonQuery();
       Id = (int) cmd.LastInsertedId;
 
@@ -109,8 +142,35 @@ namespace MusicOrganizer.Models
     }
     public static Album Find(int searchId)
     {
-      Album placeholderItem = new Album("placeholder item", "Here", 0, 0);
-      return placeholderItem;
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM `albums` WHERE albumId = @thisId;";
+      MySqlParameter thisId = new MySqlParameter();
+      thisId.ParameterName = "@thisId";
+      thisId.Value = searchId;
+      cmd.Parameters.Add(thisId);
+      
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      int albumId = 0;
+      string albumName = "";
+      string albumType = "";
+      int artistId = 0;
+      while(rdr.Read())
+      {
+        albumId =rdr.GetInt32(0);
+        albumName = rdr.GetString(1);
+        albumType = rdr.GetString(2);
+        artistId = rdr.GetInt32(3);
+      }
+      Album foundAlbum = new Album(albumName, albumType, albumId, artistId);
+      
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return foundAlbum;
     }
   }
 }

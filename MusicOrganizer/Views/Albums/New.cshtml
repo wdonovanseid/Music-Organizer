@@ -9,6 +9,12 @@
   <label for="name">Album Name</label>
   <input id="name" name="name" type="text">
   <label for="type">Album Type</label>
-  <input id="type" name="type" type="text">
+  <input id="type" name="type" type="text"><br>
+  @using (Html.BeginForm("FileUpload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+  {  
+    <label for="image">Upload Image:</label> 
+    <input type="file" name="image" id="image" style="width: 100%;" /> 
+    @* <input type="submit" value="Upload" class="submit" />  *@
+  }
   <button type='submit'>Add item</button>
 </form> 

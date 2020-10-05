@@ -10,12 +10,16 @@ namespace MusicOrganizer.Models
     public string Name { get; set; }
     public int Id { get; set; }
 
-    public List<Album> Albums = new List<Album> { };
+    // public List<Album> Albums = new List<Album> { };
 
     public Artist(string name, int artistId)
     {
       Name = name;
       Id = artistId;
+    }
+    public Artist(string name)
+    {
+      Name = name;
     }
     public static void ClearAll()
     {
@@ -52,14 +56,54 @@ namespace MusicOrganizer.Models
       }
       return allArtist;
     }
+    public void Save()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO artists (name) VALUES (@Name);";
+      MySqlParameter name = new MySqlParameter();
+      name.ParameterName = "@Name";
+      name.Value = this.Name;
+      cmd.Parameters.Add(name);
+      cmd.ExecuteNonQuery();
+      Id = (int) cmd.LastInsertedId;
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
     public static Artist Find(int searchId)
     {
-      Artist placeholderItem = new Artist("placeholder item", 0);
-      return placeholderItem;
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM `artists` WHERE artistId = @thisId;";
+      MySqlParameter thisId = new MySqlParameter();
+      thisId.ParameterName = "@thisId";
+      thisId.Value = searchId;
+      cmd.Parameters.Add(thisId);
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      int artistId = 0;
+      string artistName = "";
+      while (rdr.Read())
+      {
+        artistId = rdr.GetInt32(0);
+        artistName = rdr.GetString(1);
+      }
+      Artist foundArtist= new Artist(artistName, artistId);
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+      return foundArtist;
     }
-    public void AddAlbum(Album album)
-    {
-      Albums.Add(album);
-    }
+    // public void AddAlbum(Album album)
+    // {
+    //   Albums.Add(album);
+    // }
   }
 }

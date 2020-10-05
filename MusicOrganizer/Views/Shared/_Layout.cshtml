@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="~/css/styles.css">
   </head>
   <body>
-  <div class="container">
-  @RenderBody()
-  </div>
+    <div class="container">
+      @Html.Partial("Header")
+      @RenderBody()
+      @Html.Partial("Footer")
+    </div>
   </body>
 </html>
