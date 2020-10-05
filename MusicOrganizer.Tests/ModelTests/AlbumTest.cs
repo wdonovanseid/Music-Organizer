@@ -34,8 +34,8 @@ namespace MusicOrganizer.Tests
     public void Equals_ReturnsTrueIfDescriptionsAreTheSame_Album()
     {
       // Arrange, Act
-      Album firstAlbum = new Album("Mow the lawn", "here", 0, 0);
-      Album secondAlbum = new Album("Mow the lawn", "here", 0, 0);
+      Album firstAlbum = new Album("Mow the lawn", "here", 0);
+      Album secondAlbum = new Album("Mow the lawn", "here", 0);
 
       // Assert
       Assert.AreEqual(firstAlbum, secondAlbum);
@@ -44,7 +44,7 @@ namespace MusicOrganizer.Tests
     public void Save_SavesToDatabase_AlbumList()
     {
       //Arrange
-      Album testAlbum = new Album("Mow the lawn", "here", 0, 0);
+      Album testAlbum = new Album("Mow the lawn", "here", 0);
 
       //Act
       testAlbum.Save();
