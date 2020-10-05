@@ -61,7 +61,7 @@ namespace MusicOrganizer.Models
 
     public static Album Find(int searchId)
     {
-      Album placeholderItem = new Album("placeholder item", "Here");
+      Album placeholderItem = new Album("placeholder item", "Here", 0, 0);
       return placeholderItem;
     }
   }
