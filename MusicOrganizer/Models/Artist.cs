@@ -8,7 +8,9 @@ namespace MusicOrganizer.Models
   public class Artist
   {
     public string Name { get; set; }
-    public int Id { get; }
+    public int Id { get; set; }
+
+    public List<Album> Albums = new List<Album> { };
 
     public Artist(string name, int artistId)
     {
@@ -55,9 +57,9 @@ namespace MusicOrganizer.Models
       Artist placeholderItem = new Artist("placeholder item", 0);
       return placeholderItem;
     }
-    // public void AddAlbum(Album album)
-    // {
-    //   Albums.Add(album);
-    // }
+    public void AddAlbum(Album album)
+    {
+      Albums.Add(album);
+    }
   }
 }
